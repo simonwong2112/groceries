@@ -28,7 +28,14 @@ const INVENTORY = [
  */
 function getIds(items) {
   // TODO
+  let idArray = [];
+  for (const element of items) {
+    idArray.push(element.id);
+  }
+  return idArray;
 }
+
+//console.log(getIds(INVENTORY));
 
 /**
  * @param {Item[]} items
@@ -36,7 +43,14 @@ function getIds(items) {
  */
 function getCategories(items) {
   // TODO
+  let categoryArray = [];
+  for (const element of items) {
+    categoryArray.push(element.category);
+  }
+  return categoryArray;
 }
+
+//console.log(getCategories(INVENTORY));
 
 /**
  * Vendors often use SKUs (Stock Keeping Units) to manage their inventory.
@@ -47,9 +61,20 @@ function getCategories(items) {
  * @param {Item[]} items
  * @returns {string[]} SKUs of given items
  */
+//I'm assuming we were supposed to do the map thing and pass in a function as an argument, but rather than mess with the function definition provided, I did it this way
 function getSkus(items) {
   // TODO
+  let skus = [];
+  let idArray = getIds(items);
+  let skuString = "";
+  for (let i = 0; i < items.length; i++) {
+    skuString = `${idArray[i]}#${items[i].name}#${items[i].name.length}`;
+    skus.push(skuString);
+  }
+  return skus;
 }
+
+//console.log(getSkus(INVENTORY));
 
 /**
  * @param {Item[]} items
@@ -57,7 +82,19 @@ function getSkus(items) {
  */
 function getFruits(items) {
   // TODO
+  // let fruitArray = [];
+  // for (const element of items) {
+  //   if (element.category == "fruit") {
+  //     fruitArray.push(element);
+  //   }
+  // }
+  // return fruitArray;
+
+  const fruitArray = items.filter((element) => element.category === "fruit");
+  return fruitArray;
 }
+
+// console.log(getFruits(INVENTORY));
 
 /**
  * @param {Item[]} items
@@ -66,7 +103,25 @@ function getFruits(items) {
  */
 function getItemsByCategory(items, category) {
   // TODO
+  // let categoryArray = [];
+  // for (const element of items) {
+  //   if (element.category == category) {
+  //     categoryArray.push(element);
+  //   }
+  // }
+  // return categoryArray;
+
+  const categoryArray = items.filter(
+    (element) => element.category === category,
+  );
+  return categoryArray;
 }
+
+// console.log(getItemsByCategory(INVENTORY, "fruit"));
+// console.log(getItemsByCategory(INVENTORY, "vegetable"));
+// console.log(getItemsByCategory(INVENTORY, "dairy"));
+// console.log(getItemsByCategory(INVENTORY, "grains"));
+// console.log(getItemsByCategory(INVENTORY, "asdf"));
 
 /**
  * An item is considered "cheap" if its price is $2.50 or less.
@@ -75,15 +130,31 @@ function getItemsByCategory(items, category) {
  */
 function getCheapItems(items) {
   // TODO
+  const cheap = items.filter((element) => element.price < 2.5);
+  return cheap;
 }
+
+//console.log(getCheapItems(INVENTORY));
 
 /**
  * @param {Item[]} items
  * @returns {number} the total quantity of all items given
  */
+
 function countItems(items) {
   // TODO
+  //let totalQuantity = 0;
+  // for (const element of items) {
+  //   totalQuantity = totalQuantity + element.quantity;
+  // }
+  const totalQuantity = items.reduce(
+    (accumulator, currentValue) => accumulator + currentValue.quantity,
+    0,
+  );
+  return totalQuantity;
 }
+
+//console.log(countItems(INVENTORY));
 
 /**
  * @param {Item[]} items
@@ -91,7 +162,19 @@ function countItems(items) {
  */
 function getTotalCost(items) {
   // TODO
+  // let totalPrice = 0;
+  // for (const element of items) {
+  //   totalPrice = totalPrice + element.price * element.quantity;
+  // }
+  const totalPrice = items.reduce(
+    (accumulator, currentValue) =>
+      accumulator + currentValue.price * currentValue.quantity,
+    0,
+  );
+  return totalPrice;
 }
+
+//console.log(getTotalCost(INVENTORY));
 
 /**
  * @param {Item[]} items
@@ -99,4 +182,16 @@ function getTotalCost(items) {
  */
 function getMostExpensiveItem(items) {
   // TODO
+  let highestPrice = 0;
+  //Assuming items isn't empty
+  let mostExpensiveItem = items[0];
+  for (const element of items) {
+    if (highestPrice < element.price) {
+      highestPrice = element.price;
+      mostExpensiveItem = element;
+    }
+  }
+  return mostExpensiveItem;
 }
+
+// console.log(getMostExpensiveItem(INVENTORY));
